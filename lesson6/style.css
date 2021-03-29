@@ -1,0 +1,39 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+#listAdd {
+	
+	padding: 100px;
+	width: 90%;
+	display: none;
+}
+
+.listItems {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	border: 1px solid black;
+	list-style: none;
+	padding: 30px 30px;
+	
+}
+
+.itemProd {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 200px;
+	border: 1px solid black;
+	padding: 0 10px 10px 10px;
+	border-radius: 10px;
+}
+
+.itemProd span {
+	background: red;
+	display: block;
+	width: 40px;
+}
+.display {
+	display: block;
+}
