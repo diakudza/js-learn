@@ -20,14 +20,13 @@
 		function tempFar() {
 			var tempCel = parseInt(document.querySelectorAll('input')[0].value);
 			var p = document.querySelectorAll('p')[0];
-			//console.log(`Fifteen is ${a + b} and not ${2 * a + b}.`);
 			p.innerHTML = `${tempCel} С = ${(9/5) * tempCel + 32} F`;
 		}
 		
 		//---вариант, который просили 
 		//var tempCel = +prompt('Для перевода введите температуру в гарудсах цельсия');
-		//alert(tempCel + ' С ' + ' = '+  ((9/5) * tempCel + 32) + ' F');
-		//document.write(`Задание 1: ${tempCel} С = ${(9/5) * tempCel + 32} F<hr>');
+		//alert(`${tempCel} С = ${(9/5) * tempCel + 32} F`);
+		//document.write(`Задание 1: ${tempCel} С = ${(9/5) * tempCel + 32} F<hr>`);
 		//------------------------------
 
 
