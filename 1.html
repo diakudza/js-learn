@@ -9,22 +9,18 @@
 	<form action="#">
 		Для перевода введите температуру в градусах цельсия
 		<br>
-		<input type="text" id="input">
-		<button type="button" id="btn" onclick="tempFar()">Перевести</button>
+		<input type="text">
+		<button type="button" onclick="tempFar()">Перевести</button>
 	</form>
 	<br>
-	<p id="p"></p>
+	<p></p>
 
 	<script type="text/javascript">
-		
-		var tempCel = parseInt(document.getElementById('input').value);
-		var p = document.getElementById('p');
-		
+			
 		function tempFar() {
-
-			document.getElementById('p').innerHTML = tempCel + ' С ' + ' = '+  ((9/5) * tempCel + 32) + ' F';
-			
-			
+			var tempCel = parseInt(document.querySelectorAll('input')[0].value);
+			var p = document.querySelectorAll('p')[0];
+			document.querySelectorAll('p')[0].innerHTML = tempCel + ' С ' + ' = '+  ((9/5) * tempCel + 32) + ' F';
 		}
 		
 		//---вариант, который просили 
