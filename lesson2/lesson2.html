@@ -122,20 +122,78 @@
          let x = Number(document.getElementById('input5').value);
          let y = Number(document.getElementById('input6').value);
          switch (operation) {
-            case sum:
-               return sum(x, y);
+            case 'sum':
+               sum(x, y);
                break;
-            case raz:
-               return raz(x, y);
+            case 'raz':
+               raz(x, y);
                break;
-            case mult:
-               return mutl(x, y);
+            case 'mult':
+               mutl(x, y);
                break;
-            case div:
-               return div(x, y);
+            case 'div':
+               div(x, y);
          }
 
       }
+   </script>
+   <hr>
+   <h2>Задание 7</h2>
+   <p>Сравнить NULL и 0</p>
+   <p>Null — примитивное значение, которое представляет собой намеренное отсутствие какого-либо значения объекта.
+      console.log(isNaN(nul)); - возвращает FALSE, т.е. не число. Сравнивать NULL и number - не верно.</p>
+   <code>
+      let nul = null;
+      let nulNum = 0;
+      if (nul === nulNum) {
+         document.write('типы равны')
+      } else {
+         document.write('разные типы данных');
+      }
+   </code>
+   <script>
+      let nul = null;
+      let nulNum = 0;
+      if (nul === nulNum) {
+         document.write('типы равны')
+      } else {
+         document.write('<br>разные типы данных<br>');
+      }
+      document.write(isNaN(nul));
+   </script>
+
+
+
+   <hr>
+   <h2>Задание 8</h2>
+
+   <p id="p4"></p>
+   <input type="text" id="input7" placeholder="число">
+   <input type="text" id="input8" placeholder="степень">
+   <button id="btn5" onClick="f()">Возвети</button>
+   <script>
+
+      let p4 = document.getElementById('p4');
+
+      function f() {
+         let val = Number(document.getElementById('input7').value);
+         let pow = Number(document.getElementById('input8').value);
+         let n;
+         function power(val, pow) {
+            p4.innerText = n;
+            if (pow == 0) {
+               return;
+            }
+            n += val;
+            --pow;
+
+            power(val, pow);
+         }
+
+
+
+      }
+
    </script>
 </body>
 
