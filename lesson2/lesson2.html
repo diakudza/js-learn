@@ -178,22 +178,19 @@
       function f() {
          let val = Number(document.getElementById('input7').value);
          let pow = Number(document.getElementById('input8').value);
-         let n;
-         function power(val, pow) {
-            p4.innerText = n;
-            if (pow == 0) {
-               return;
-            }
-            n += val;
-            --pow;
-
-            power(val, pow);
-         }
-
-
+         let n = 0;
+         power(val, pow);
 
       }
 
+      function power(val, pow) {
+
+         p4.innerText = val;
+         if (pow-- <= 1) {
+            return;
+         }
+         power(val + val, pow);
+      }
    </script>
 </body>
 
