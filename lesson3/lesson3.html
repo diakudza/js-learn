@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<h1>ДЗ 3</h1>
+
+<h2>Задание 1</h2>
+<p id="p1"></p>
+<hr>
+
+<h2>Задание 2</h2>
+<p id="pList">
+<p id="p2"></p>
+<hr>
+
+<h2>Задание 3</h2>
+<p id="p3"></p>
+<hr>
+
+<h2>Задание 4</h2>
+<p id="p4"></p>
+<hr>
+
+<script>
+	let
+		p1 = document.getElementById('p1'),
+		p2 = document.getElementById('p2'),
+		pList = document.getElementById('pList'),
+		p3 = document.getElementById('p3'),
+		p4 = document.getElementById('p4'),
+		li = document.createElement("li");
+
+	let i = 2;
+	function checkNum(x) {
+		var i = 2;
+		while (i < x) {
+			if (x % i == 0) {
+				return false;
+			}
+			i++;
+		}
+		return true;
+	}
+
+
+	while (i <= 100) {
+		if (checkNum(i)) {
+			p1.innerText += i + ",";
+		}
+		i++;
+	}
+
+	//----------------------------------------	
+	let goods = [
+		{
+			title: "Штаны",
+			price: 400,
+			count: 2
+		},
+		{
+			title: "Юбка",
+			price: 200,
+			count: 4
+		},
+		{
+			title: "Футболка",
+			price: 200,
+			count: 2
+		}
+	];
+
+	function countBasketPrice(basket) {
+		let s = 0;
+		for (let good of basket) {
+			s = s + good.count * good.price;
+			pList.innerHTML += `${good.title} ${good.price}р. х ${good.count}шт. = ${good.price * good.count}р. <br>`;
+			//ul.append(li);
+		}
+
+		p2.innerHTML += "Cумма всех товаров в корзине: " + s;
+	}
+
+	function itemOfBasket(basket) {
+		let s = '';
+		for (let good of basket) {
+			s = s + good.title + " ";
+		}
+		return p2.innerHTML += "<br>Тип товаров в корзине: " + s;
+	}
+
+	countBasketPrice(goods);
+
+
+
+	//--------------------
+	for (let i = 0; i <= 9; p3.innerHTML += i++) { }
+
+	//------------------
+
+	for (let i = 1, x = 'x'; i <= 20; p4.innerHTML += ("<br>" + x), i++, x += 'x') { }
+
+
+//-------------------------------------------
+
+
+</script>
+</body>
+
+</html>
