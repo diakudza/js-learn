@@ -100,8 +100,16 @@
 	for (let i = 0; i <= 9; p3.innerHTML += i++) { }
 
 	//------------------
-
-	for (let i = 1, x = 'x'; i <= 20; p4.innerHTML += ("<br>" + x), i++, x += 'x') { }
+	let k,x='x';
+	for (let i = 1; i <= 20; i++) { 
+		k='&nbsp;'
+		for( let j = 20; j>i; j--){
+			k=k+'&nbsp;'
+		}
+		k=k.slice(0, -6);
+		p4.innerHTML += ("<br>"+ k + x);
+		x += 'x';
+	}
 
 
 //-------------------------------------------
