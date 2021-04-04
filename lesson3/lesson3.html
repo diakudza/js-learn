@@ -33,7 +33,7 @@
 		p3 = document.getElementById('p3'),
 		p4 = document.getElementById('p4'),
 		li = document.createElement("li");
-
+	//----задание 1
 	let i = 2;
 	function checkNum(x) {
 		var i = 2;
@@ -54,7 +54,7 @@
 		i++;
 	}
 
-	//----------------------------------------	
+	//----задание 2
 	let goods = [
 		{
 			title: "Штаны",
@@ -78,7 +78,7 @@
 		for (let good of basket) {
 			s = s + good.count * good.price;
 			pList.innerHTML += `${good.title} ${good.price}р. х ${good.count}шт. = ${good.price * good.count}р. <br>`;
-			//ul.append(li);
+
 		}
 
 		p2.innerHTML += "Cумма всех товаров в корзине: " + s;
@@ -96,18 +96,18 @@
 
 
 
-	//--------------------
+	//-------задание 3
 	for (let i = 0; i <= 9; p3.innerHTML += i++) { }
 
-	//------------------
-	let k,x='x';
-	for (let i = 1; i <= 20; i++) { 
-		k='&nbsp;'
-		for( let j = 20; j>i; j--){
-			k=k+'&nbsp;'
+	//--------задание 4
+	let k, x = 'x';
+	for (let i = 1; i <= 20; i++) {
+		k = '&nbsp;'
+		for (let j = 20; j > i; j--) {
+			k = k + '&nbsp;'
 		}
-		k=k.slice(0, -6);
-		p4.innerHTML += ("<br>"+ k + x);
+		k = k.slice(0, -6);
+		p4.innerHTML += ("<br>" + k + x);
 		x += 'x';
 	}
 
