@@ -4,22 +4,40 @@
 }
 #listAdd {
 	margin: 0 auto;	
-	padding: 20px;
-	width: 90%;
+	padding: 20px 30px;
+	width: 97%;
+	box-sizing: border-box;
+	background: palevioletred;
 	/*display: none;*/
 }
-
+.label {
+	background: chartreuse;
+	border-radius: 50%;
+	z-index: 2;
+	position: absolute;
+   top: 1px;
+   right: 1px;
+	width: 18px;
+   text-align: center;
+}
 #listAdd ul {
 	display: flex;
 	list-style: none;
 	flex-wrap: wrap;
+	margin: 0 0 10px 0;
 }
+
 .cart_li {
-	border: 1px solid black;
+	//border: 1px solid black;
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	background: white;
+	padding: 5px;
+	margin: 0 10px 0 0;
+	box-shadow: 1px 2px 5px black;
+	position: relative; ;
 }
 
 .cart_li img {
@@ -30,28 +48,41 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	border: 1px solid black;
+	box-sizing: border-box;
 	list-style: none;
 	padding: 30px 30px;
-	width: 90%;
+	width: 97%;
 	gap: 10px;
 	margin: 0 auto;
+	background: palevioletred;
+	
 }
 
 .itemProd {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	align-items: center;
 	width: 200px;
-	border: 1px solid black;
 	padding: 10px;
 	border-radius: 10px;
+	background: white;
+	box-shadow: 1px 2px 5px black;
 }
 
-.itemProd span {
-	background: red;
+
+.span_price {
+	background: rgb(226, 42, 113);
 	display: block;
 	width: auto;
+	padding: 0 10px;
+	margin: 10px 0;
+}
+button {
+	background: transparent;
+	padding: 10px 0;
+	width: 100%;
+	border-radius: 5px;;
 }
 .display {
 	display: block;
