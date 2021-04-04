@@ -100,19 +100,19 @@
       p3.innerText = '';
 
       function add(x, y) {
-         return p3.innerText = x + y;
+         return x + y;
       }
 
       function sub(x, y) {
-         return p3.innerText = x - y;
+         return x - y;
       }
 
       function mul(x, y) {
-         return p3.innerText = x * y;
+         return x * y;
       }
 
       function dif(x, y) {
-         return p3.innerText = x / y;
+         return x / y;
       }
 
 
@@ -123,16 +123,16 @@
          let y = Number(document.getElementById('input6').value);
          switch (operation) {
             case 'add':
-               add(x, y);
+               p3.innerText = add(x, y);
                break;
             case 'sub':
-               sub(x, y);
+               p3.innerText = sub(x, y);
                break;
             case 'mul':
-               mul(x, y);
+               p3.innerText = mul(x, y);
                break;
             case 'dif':
-               dif(x, y);
+               p3.innerText = dif(x, y);
                break;
          }
 
