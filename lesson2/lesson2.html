@@ -48,7 +48,7 @@
             return p.innerHTML = `Вы ввели не число! Повторите`;
          }
          if (a >= 0 && b >= 0) {
-            p.innerHTML = `оба пложительные, их сумма ${a + b}`;
+            p.innerHTML = `оба пложительные, их разность ${a - b}`;
          } else if (a <= 0 && b <= 0) {
             p.innerHTML = `оба отрицательные, их произведение ${a * b}`;
          } else {
@@ -87,10 +87,10 @@
    <h2>Задание 5 и 6</h2>
    <input id="input5" type="text">
    <select onchange="mathOperation(value)">
-      <option value="sum">+</option>
-      <option value="raz">-</option>
-      <option value="mult">*</option>
-      <option value="div">/</option>
+      <option value="add">+</option>
+      <option value="sub">-</option>
+      <option value="mul">*</option>
+      <option value="dif">/</option>
    </select>
    <input id="input6" type="text">
    <p id="p3"></p>
@@ -99,19 +99,19 @@
       let p3 = document.getElementById('p3');
       p3.innerText = '';
 
-      function sum(x, y) {
+      function add(x, y) {
          return p3.innerText = x + y;
       }
 
-      function raz(x, y) {
+      function sub(x, y) {
          return p3.innerText = x - y;
       }
 
-      function mult(x, y) {
+      function mul(x, y) {
          return p3.innerText = x * y;
       }
 
-      function div(x, y) {
+      function dif(x, y) {
          return p3.innerText = x / y;
       }
 
@@ -122,17 +122,18 @@
          let x = Number(document.getElementById('input5').value);
          let y = Number(document.getElementById('input6').value);
          switch (operation) {
-            case 'sum':
-               sum(x, y);
+            case 'add':
+               add(x, y);
                break;
-            case 'raz':
-               raz(x, y);
+            case 'sub':
+               sub(x, y);
                break;
-            case 'mult':
-               mutl(x, y);
+            case 'mul':
+               mul(x, y);
                break;
-            case 'div':
-               div(x, y);
+            case 'dif':
+               dif(x, y);
+               break;
          }
 
       }
@@ -178,19 +179,19 @@
       function f() {
          let val = Number(document.getElementById('input7').value);
          let pow = Number(document.getElementById('input8').value);
-         let n = 0;
-         power(val, pow);
+         p4.innerText = power(val, pow);
 
       }
 
       function power(val, pow) {
-
-         p4.innerText = val;
-         if (pow-- <= 1) {
-            return;
+         pow--;
+         if (pow < 1) {
+            return val;
          }
-         power(val + val, pow);
+         return power(val + val, pow);
       }
+
+
    </script>
 </body>
 
