@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Урок2</title>
+   <style>
+      input {
+         width: 40px;
+      }
+   </style>
+</head>
+
+<body>
+   <h2>Задание 1</h2>
+   <ul>
+      <li>var a = 1, b = 1, c, d;</li>
+      <li>c = ++a; alert(c); // 2 - инкремент , a=2</li>
+      <li>d = b++; alert(d); // 1 - постинкремент, b=2</li>
+      <li>c = (2+ ++a); alert(c); // 5 - (2+(2+1)), a=3 </li>
+      <li>d = (2+ b++); alert(d); // 4 - (2+(2)) , b=3</li>
+      <li>alert(a); // 3</li>
+      <li>alert(b); // 3</li>
+   </ul>
+   <hr>
+   <h2>Задание 2</h2>
+   <script>
+      let a = 2, x;
+      document.write(`x = ${1 + (a *= 2)}`);
+   </script>
+   <hr>
+   <h2>Задание 3</h2>
+   <p id="p1">Тут будет результат</p>
+   <input type="text" id="input1" placeholder="первое значение" value="">
+   <input type="text" id="input2" placeholder="второе значение" value="">
+   <button id="btn3" onClick="checkNum()">Проверить</button>
+
+   <script>
+
+      let btn3 = document.getElementById('btn3');
+      function checkNum() {
+         let a = Number(document.getElementById('input1').value);
+         let b = Number(document.getElementById('input2').value);
+         let p = document.getElementById('p1');
+         if ((isNaN(a) || isNaN(b))) {
+            return p.innerHTML = `Вы ввели не число! Повторите`;
+         }
+         if (a >= 0 && b >= 0) {
+            p.innerHTML = `оба пложительные, их разность ${a - b}`;
+         } else if (a < 0 && b < 0) {
+            p.innerHTML = `оба отрицательные, их произведение ${a * b}`;
+         } else {
+            p.innerHTML = `Разные знаки ${a + b}`;
+         }
+      }
+
+   </script>
+   <hr>
+   <h2>Задание 4</h2>
+   <p id="p2"></p>
+   <input type="text" id="input4" placeholder="0..15 значение" value="">
+   <button id="btn4" onClick="num()">Проверить</button>
+
+   <script>
+
+      let p2 = document.getElementById('p2');
+
+      function num() {
+         let a4 = Number(document.getElementById('input4').value);
+         p2.innerText = '';
+         if (isNaN(a4)) {
+            return p2.innerHTML = `Вы ввели не число! Повторите`;
+         }
+         if (a4 > 15 || a4 < 0) {
+            return p2.innerHTML = `Введите число в диапазоне от 0 до 15`;
+         }
+         while (a4 <= 15) {
+            p2.innerText += ' ' + a4;
+            ++a4;
+         }
+      }
+
+   </script>
+   <hr>
+   <h2>Задание 5 и 6</h2>
+   <input id="input5" type="text">
+   <select onchange="mathOperation(value)">
+      <option value="add">+</option>
+      <option value="sub">-</option>
+      <option value="mul">*</option>
+      <option value="dif">/</option>
+   </select>
+   <input id="input6" type="text">
+   <p id="p3"></p>
+   <script>
+
+      let p3 = document.getElementById('p3');
+      p3.innerText = '';
+
+      function add(x, y) {
+         return x + y;
+      }
+
+      function sub(x, y) {
+         return x - y;
+      }
+
+      function mul(x, y) {
+         return x * y;
+      }
+
+      function dif(x, y) {
+         return x / y;
+      }
+
+
+      //задание 6
+
+      function mathOperation(operation) {
+         let x = Number(document.getElementById('input5').value);
+         let y = Number(document.getElementById('input6').value);
+         switch (operation) {
+            case 'add':
+               p3.innerText = add(x, y);
+               break;
+            case 'sub':
+               p3.innerText = sub(x, y);
+               break;
+            case 'mul':
+               p3.innerText = mul(x, y);
+               break;
+            case 'dif':
+               p3.innerText = dif(x, y);
+               break;
+         }
+
+      }
+   </script>
+   <hr>
+   <h2>Задание 7</h2>
+   <p>Сравнить NULL и 0</p>
+   <p>Null — примитивное значение, которое представляет собой намеренное отсутствие какого-либо значения объекта.
+      console.log(isNaN(nul)); - возвращает FALSE, т.е. не число. Сравнивать NULL и number - не верно.</p>
+   <code>
+      let nul = null;
+      let nulNum = 0;
+      if (nul === nulNum) {
+         document.write('типы равны')
+      } else {
+         document.write('разные типы данных');
+      }
+   </code>
+   <script>
+      let nul = null;
+      let nulNum = 0;
+      if (nul === nulNum) {
+         document.write('типы равны')
+      } else {
+         document.write('<br>разные типы данных<br>');
+      }
+      document.write(isNaN(nul));
+   </script>
+
+
+
+   <hr>
+   <h2>Задание 8</h2>
+
+   <p id="p4"></p>
+   <input type="text" id="input7" placeholder="число">
+   <input type="text" id="input8" placeholder="степень">
+   <button id="btn5" onClick="f()">Возвети</button>
+   <script>
+
+      let p4 = document.getElementById('p4');
+
+      function f() {
+         let val = Number(document.getElementById('input7').value);
+         let pow = Number(document.getElementById('input8').value);
+         p4.innerText = power(val, pow);
+
+      }
+
+      function power(val, pow) {
+         pow--;
+         if (pow < 1) {
+            return val;
+         }
+         return power(val + val, pow);
+      }
+
+
+   </script>
+</body>
+
+</html>
