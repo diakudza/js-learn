@@ -49,13 +49,13 @@
 
 	while (i <= 100) {
 		if (checkNum(i)) {
-			p1.innerText += i + ",";
+			p1.innerText += `${i} `;
 		}
 		i++;
 	}
 
 	//----задание 2
-	let goods = [
+	let goods = [	//массив с обьектами товаров (тип, цена, колличество)
 		{
 			title: "Штаны",
 			price: 400,
@@ -77,22 +77,30 @@
 		let s = 0;
 		for (let good of basket) {
 			s = s + good.count * good.price;
-			pList.innerHTML += `${good.title} ${good.price}р. х ${good.count}шт. = ${good.price * good.count}р. <br>`;
-
 		}
-
-		p2.innerHTML += "Cумма всех товаров в корзине: " + s;
+		return "Cумма всех товаров в корзине: " + s;
 	}
 
-	function itemOfBasket(basket) {
+	function viewBasket(basket) {
 		let s = '';
 		for (let good of basket) {
-			s = s + good.title + " ";
+			s += `${good.title} ${good.price}р. х ${good.count}шт. = ${good.price * good.count}р. <br>`;
 		}
-		return p2.innerHTML += "<br>Тип товаров в корзине: " + s;
+		return s;
 	}
 
-	countBasketPrice(goods);
+	function itemOfBasket(basket) { //этой функцией можно вывести типы товаров в корзине
+		let s = '';
+		for (let good of basket) {
+			s += `${good.title} `;
+		}
+		return s;
+	}
+
+
+	p2.innerHTML = viewBasket(goods); //выводим товары в корзине
+	//p2.innerHTML += itemOfBasket(goods) + "<br>";//выводим только тип товаров в корзине
+	p2.innerHTML += countBasketPrice(goods); //выводим сумму товаров в корзине
 
 
 
@@ -102,12 +110,12 @@
 	//--------задание 4
 	let k, x = 'x';
 	for (let i = 1; i <= 20; i++) {
-		k = '&nbsp;'
+		k = '&nbsp;'//пробел html
 		for (let j = 20; j > i; j--) {
 			k = k + '&nbsp;'
 		}
-		k = k.slice(0, -6);
-		p4.innerHTML += ("<br>" + k + x);
+		k = k.slice(0, -6);//отрезаем по одному пробелу с каждой итерации
+		p4.innerHTML += ("<br>" + k + x); //новая строка + пробелы + колличество зведочек(равное номеру итерации)
 		x += 'x';
 	}
 
