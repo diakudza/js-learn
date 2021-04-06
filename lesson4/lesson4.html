@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lesson 4</title>
+</head>
+
+<body>
+   <h2>Задание 1</h2>
+   <p id="p1">Написать функцию, преобразующую число в объект. Передавая на вход число от 0 до 999, надо получить на
+      выходе
+      объект, в котором в соответствующих свойствах описаны единицы, десятки и сотни. Например, для числа 245 надо
+      получить следующий объект: {‘единицы’: 5, ‘десятки’: 4, ‘сотни’: 2}. Если число превышает 999, необходимо выдать
+      соответствующее сообщение с помощью console.log и вернуть пустой объект.</p>
+   <p id="p11"></p>
+   <input type="text" id="input1" placeholder="0-999">
+   <button id="btn1" onclick="strToObj()">Разложить</button>
+   <script>
+      function strToObj() {
+         let input = document.getElementById('input1').value,
+            p1 = document.getElementById('p11'),
+            mass = input.split(''),
+            obj = {
+               hundreds: '',
+               dozens: '',
+               units: ''
+            }
+
+         if (Number(input) > 999) {
+            return p1.innerHTML = "Ошибка! Введите число от 0 дл 999";
+         }
+         if (mass[2] != undefined) {
+            obj.units = mass[2];
+            obj.dozens = mass[1];
+            obj.hundreds = mass[0];
+            return p1.innerHTML = ` ${obj.hundreds} сотен, ${obj.dozens} десятков, ${obj.units} единиц`;
+         }
+         if (mass[1] != undefined) {
+            obj.units = mass[1];
+            obj.dozens = mass[0];
+            return p1.innerHTML = `${obj.dozens} десятков, ${obj.units} единиц`;
+         }
+         if (mass[0] != undefined) {
+            obj.unit = mass[0];
+            return p1.innerHTML = `${obj.units} единиц`;
+
+         }
+      }
+
+   </script>
+   <hr>
+   <h2>Задание 2</h2>
+   <p id="p2"></p>
+</body>
+
+</html>
