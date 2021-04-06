@@ -19,6 +19,43 @@
    <input type="text" id="input1" placeholder="0-999">
    <button id="btn1" onclick="strToObj()">Разложить</button>
    <script>
+      let hundreds = 'сотен',
+      dozens ='десятков',
+      units = 'единиц';
+
+      function unitEnds(a, b) { //a - 100,10,1 b - колличество
+         if (a == 100){//сотни
+            if (b == 1){
+               return 'сотня';
+            }
+            if (b == 2 || b == 3 || b == 4){
+               return 'сотни';  
+            }else{
+               return 'сотен';
+            }
+         }
+         if (a == 10){//десятки
+            if (b == 1){
+               return 'десятка';
+            }
+            if (b == 2 || b == 3 || b == 4){
+               return 'десятки';  
+            }else{
+               return 'десяток';
+            }
+         }
+         if (a == 1){//единиц
+            if (b == 1){
+               return 'единица';
+            }
+            if (b == 2 || b == 3 || b == 4){
+               return 'единицы';  
+            }else{
+               return 'единиц';
+            }
+         }
+      }
+
       function strToObj() {
          let input = document.getElementById('input1').value,
             p1 = document.getElementById('p11'),
@@ -30,22 +67,22 @@
             }
 
          if (Number(input) > 999) {
-            return p1.innerHTML = "Ошибка! Введите число от 0 дл 999";
+            return p1.innerHTML = "Ошибка! Введите число от 0 до 999";
          }
          if (mass[2] != undefined) {
             obj.units = mass[2];
             obj.dozens = mass[1];
             obj.hundreds = mass[0];
-            return p1.innerHTML = ` ${obj.hundreds} сотен, ${obj.dozens} десятков, ${obj.units} единиц`;
+            return p1.innerHTML = `${obj.hundreds} ${unitEnds(100, obj.hundreds)}, ${obj.dozens} ${unitEnds(10, obj.dozens)}, ${obj.units} ${unitEnds(1, obj.units)}`;
          }
          if (mass[1] != undefined) {
             obj.units = mass[1];
             obj.dozens = mass[0];
-            return p1.innerHTML = `${obj.dozens} десятков, ${obj.units} единиц`;
+            return p1.innerHTML = `${obj.dozens} ${unitEnds(10, obj.dozens)}, ${obj.units} ${unitEnds(1, obj.units)}`;
          }
          if (mass[0] != undefined) {
             obj.unit = mass[0];
-            return p1.innerHTML = `${obj.units} единиц`;
+            return p1.innerHTML = `${obj.units} ${unitEnds(1, obj.units)}`;
 
          }
       }
