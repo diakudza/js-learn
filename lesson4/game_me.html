@@ -10,19 +10,19 @@
 
 <body>
     <button id="start" onclick="game.run()">Старт</button>
-
+    <button id="stop" onclick="game.run(null)">Старт</button>
     <p id='p'></p>
 </body>
 <script type="text/javascript">
 
     /**
-  * Объект с настройками игры.
-  * @property {int} rowsCount Количество строк в карте.
-  * @property {int} colsCount Количество колонок в карте.
-  */
+     * Объект с настройками игры.
+     * @property {int} rowsCount Количество строк в карте.
+     * @property {int} colsCount Количество колонок в карте.
+     */
     const config = {
         rowsCount: 10,
-        colsCount: 10,
+        colsCount: 15,
     };
 
     /**
@@ -58,7 +58,7 @@
                 for (let col = 0; col < config.colsCount; col++) {
                     // Проверяем, если на данной позиции должен быть и игрок, отображаем игрока, если нет - клетку.
                     if (player.y === row && player.x === col) {
-                        this.map += 'o ';
+                        this.map += '0 ';
                     } else {
                         this.map += 'x ';
                     }
@@ -69,6 +69,7 @@
 
             // Выводим все что надо отобразить в игре.
             console.log(this.map);
+            p.innerText = this.map;
         },
 
         clear() {
@@ -87,23 +88,23 @@
         getDirection() {
             // Доступные значения ввода.
             const availableDirections = ['w', 'a', 's', 'd'];
-
             while (true) {
-                // Получаем от пользователя направление.
-                let direction = prompt('Введите букву (w, a, s или d), куда вы хотите переместиться, "Отмена" для выхода.');
-                if (!direction) {
-                    return null;
-                }
+                let direction = document.addEventListener('keydown', function (event) {
+                    if (event.code == 'KeyEsc') {
+                        return null;
+                    }
+                    //let direction = '';
+                    direction = event.key;
 
-                // Если направление не одно из доступных, то сообщаем что надо ввести корректные данные
-                // и начинаем новую итерацию.
+                    // return direction;
+                });
+
                 if (!availableDirections.includes(direction)) {
                     // alert('Для перемещения необходимо ввести одну из букв w, a, s или d.');
-                    continue;
                 }
-
-                // Если пользователь ввел корректное значение - отдаем его.
-                return direction;
+                console.log(direction);
+                //}
+                //return direction;
             }
         },
 
@@ -142,7 +143,6 @@
         /**
          * Запускает игру.
          */
-        count: 0,
         run() {
             // Бесконечный цикл
             while (true) {
@@ -152,7 +152,7 @@
                 // Если игрок сказал что хочет выйти, то игра заканчивается.
                 if (direction === null) {
                     console.log("Игра окончена.");
-                    console.log(`Последняя позиция - X ${player.x + 1} , Y ${player.y + 1}`);
+                    p.innerText = "Игра окончена";
                     return;
                 }
                 // Получаем следующую точку пользователя в зависимости от направления.
@@ -160,7 +160,6 @@
 
                 renderer.clear();
                 player.move(nextPoint);
-                console.log(`Ход номер ${this.count++}`);
                 renderer.render();
 
             }
@@ -176,5 +175,4 @@
     };
 
     game.init();
-
 </script>
