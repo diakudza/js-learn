@@ -11,8 +11,11 @@
 <body>
     <button id="start" onclick="game.start()">Старт</button>
     <button id="stop" onclick="game.stop()">Закончить</button>
+
     <p id='p'></p>
-    <p id='question'></p>
+    <div id="div">
+        <p id='question'></p>
+    </div>
 </body>
 <script type="text/javascript">
 
@@ -49,20 +52,30 @@
         help: 3
     };
 
+    function generateBtn(item) {
+        for (let i = 1; i <= 4; i++) {
+            let btn = document.createElement('button');
+            btn.innerText = ask[item][i];
+            btn.setAttribute.id = i;
 
+            div.append(btn);
+        }
+
+    }
     let game = {
         position: 0,
         start() {
-            let p = document.getElementById('p');
+            let p = document.getElementById('p'),
+                div = document.getElementById('div');
+
+
             p.innerText = "Игра началась";
             for (let item in ask) {
                 let question = document.getElementById('question');
-                let btn1 = document.createElement('button');
-
                 question.innerHTML = ask[item].question;
-                document.
-                    while(1) {
-                    documet
+                generateBtn(item);
+                while (1) {
+
                 }
             }
         },
