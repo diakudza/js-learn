@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра милилонер!</title>
+    <style>
+        body {
+            background-color: rgb(35, 35, 161);
+            color: white;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid rgb(48, 51, 235);
+            border-radius: 5px;
+            color: white;
+            outline: unset;
+            margin: 0 5px;
+        }
+
+        #div {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #question {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="start" onclick="game.start()">Старт</button>
+    <button id="stop" onclick="game.stop()">Закончить</button>
+
+    <p id='p'></p>
+    <p id='question'></p>
+    <div id="div">
+
+    </div>
+</body>
+<script type="text/javascript">
+
+
+    const ask = {
+        1: {
+            question: 'Что такое RGB?',
+            1: 'ЛГБТ сообщество',
+            2: 'Ракетный комплекс земного базирования',
+            3: 'Запрещенное вещество',
+            4: 'Способ описания цвета',
+            answer: 4
+        },
+        2: {
+            question: 'Чем занимается программист?',
+            1: 'Ремонтирует процессоры',
+            2: 'Тянет ЛВС и поднимает сервера',
+            3: 'Составляет сетку програм на ТВ',
+            4: 'Пишет код',
+            answer: 4
+        },
+        3: {
+            question: 'Путин',
+            1: 'Краб',
+            2: 'Король Российской Империиё',
+            3: 'Президент СССР',
+            4: 'Второй президент РФ',
+            answer: 4
+        }
+    };
+
+    const player = {
+        score: 0,
+        help: 3
+    };
+
+    function generateBtn(n) { //генерирование кнопок с ответами
+        for (let i = 1; i <= 4; i++) {
+            let btn = document.createElement('button');
+            btn.innerText = n[i];
+            btn.setAttribute('id', i);
+            div.append(btn);
+        }
+
+    };
+
+    function f() {//функция для определения id нажатой кнопки
+        let btn = document.querySelectorAll('#div button');
+        for (let i = 0; i < btn.length; i++) {
+            btn[i].addEventListener("click", function () {
+                game.checkAnswer(i + 1);
+            });
+        }
+
+    };
+
+    let game = {
+        questionNumber: 1,//счетчик текущего вопроса
+        start() {
+            this.cleanDiv();
+            let p = document.getElementById('p'),
+                div = document.getElementById('div');
+            p.innerHTML = "<b>Игра началась</b>";
+            this.askQuestion(this.questionNumber);  //начинаем выводит вопросы  в зависимости от свойства questionNumber
+            f(); // слушаем ответ на кнопках
+            //this.start(); не получается запустить новый вопрос. По задумке. Сейчас запущу опять метод старт и он посмотрит на вопрос , который уже навен 2 и далее по кругу
+        },
+
+        askQuestion(questionNumber) { //генерируем порос и вызываем функцию-генератор кнопок
+            let question = document.getElementById('question');
+            question.innerHTML = ask[questionNumber].question;
+            generateBtn(ask[questionNumber]);
+
+        },
+
+        checkAnswer(i) {//не смог сделать проверку для каждого вопроса. Пришлось все ответы делать под одним номером
+            if (i == ask[1].answer) {
+                p.innerText = 'Верно! Получи +1000';
+                game.questionNumber += 1;
+                player.score += 1000;
+                this.cleanDiv();
+            } else {
+                game.stop();
+            }
+        },
+        cleanDiv() {
+            div.innerText = '';
+            let p = document.createElement('p');
+
+            p.setAttribute('id', 'question');
+            div.append(p);
+        },
+        stop() {
+            let p = document.getElementById('p');
+            p.innerText = "Игра окончена";
+            div.innerText = `Ваш счет: ${player.score}`;
+        }
+    };
+
+
+
+</script>
