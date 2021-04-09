@@ -7,28 +7,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игра милилонер!</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: rgb(35, 35, 161);
+            background-color: #14161F;
+            padding: 0 10%;
+            text-align: center;
             color: white;
         }
 
         button {
             background: transparent;
-            border: 1px solid rgb(48, 51, 235);
-            border-radius: 5px;
+            /*border: 1px solid rgb(48, 51, 235);
+            border-radius: 5px;*/
+            border: none;
             color: white;
             outline: unset;
             margin: 0 5px;
+            background-image: url(btn.svg);
+            background-size: contain;
+            width: 350px;
+            background-repeat: no-repeat;
+            height: 50px;
+            margin: 10px 0;
+        }
+
+        .cover {
+
+            display: flex;
+            justify-content: center;
         }
 
         #div {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            width: 700px;
         }
 
         #question {
             text-align: center;
+            background-image: url(question.svg);
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            margin: 0 0 20px;
         }
     </style>
 </head>
@@ -39,12 +71,15 @@
 
     <p id='p'></p>
     <p id='question'></p>
-    <div id="div">
-
+    <div class="cover">
+        <div id="div">
+        </div>
     </div>
 </body>
 <script type="text/javascript">
 
+    var audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3');
+    var ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3');
 
     const ask = {
         1: {
@@ -105,6 +140,7 @@
             let p = document.getElementById('p'),
                 div = document.getElementById('div');
             p.innerHTML = "<b>Игра началась</b>";
+            audio.play();
             this.askQuestion(this.questionNumber);  //начинаем выводит вопросы  в зависимости от свойства questionNumber
             f(); // слушаем ответ на кнопках
             //this.start(); не получается запустить новый вопрос. По задумке. Сейчас запущу опять метод старт и он посмотрит на вопрос , который уже навен 2 и далее по кругу
@@ -119,6 +155,7 @@
 
         checkAnswer(i) {//не смог сделать проверку для каждого вопроса. Пришлось все ответы делать под одним номером
             if (i == ask[1].answer) {
+                ok.play();
                 p.innerText = 'Верно! Получи +1000';
                 game.questionNumber += 1;
                 player.score += 1000;
