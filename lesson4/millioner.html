@@ -64,6 +64,11 @@
             margin: 0 0 20px;
         }
 
+        #help,
+        #helpCall {
+            margin: 100px 0 0 0;
+        }
+
         .btn:active {
             color: chartreuse;
 
@@ -132,7 +137,8 @@
 
     const player = {
         score: 0,
-        help: 1
+        help: 1,
+        helpCall: 1
     };
 
     function generateBtn(n) { //генерирование кнопок с ответами
@@ -150,6 +156,13 @@
             btnHelp.setAttribute('id', 'help');
             btnHelp.setAttribute('onClick', 'game.helpFifty()');
             div.append(btnHelp);
+        }
+        let btnCall = document.createElement('button');
+        if (player.helpCall != 0) {
+            btnCall.innerText = 'Звонок другу';
+            btnCall.setAttribute('id', 'helpCall');
+            btnCall.setAttribute('onClick', 'game.helpCall()');
+            div.append(btnCall);
         }
     };
 
@@ -177,19 +190,26 @@
             f(); // слушаем ответ на кнопках
 
         },
-        helpFifty() {
+        helpFifty() {// работате не верно
 
             let btn = document.querySelectorAll('.btn');
             for (let i = 1; i <= 2; i++) {
                 let num = Math.round(Math.random() * (4));
-                if (ask[game.questionNumber].answer != num) {
-                    btn[i].remove();
+                if ((ask[game.questionNumber].answer != num) && (num != undefined)) {
+                    btn[i + 1].remove();
                     player.help = 0;
                     helpFifty.play();
                 }
             }
             help = document.getElementById('help');
             help.remove();
+        },
+        helpCall() {
+            alert('Звонок Константину Эрнсту');
+            player.helpCall = 0;
+            helpFifty.play();
+            helpCall = document.getElementById('helpCall');
+            helpCall.remove();
         },
 
         askQuestion(questionNumber) { //генерируем вопрос и вызываем функцию-генератор кнопок
@@ -220,15 +240,12 @@
         },
         cleanDiv() {
             div.innerText = '';
-            let p = document.createElement('p');
-
-            p.setAttribute('id', 'question');
-            div.append(p);
         },
         stop() {
             let p = document.getElementById('question');
             p.innerText = `Игра окончена! Ваш счет: ${player.score}`;
             game.questionNumber = 1; //сброс к первому вопросу
+            player.score = 0;
         }
     };
 
