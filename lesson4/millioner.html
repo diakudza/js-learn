@@ -27,7 +27,7 @@
             color: white;
             outline: unset;
             margin: 0 5px;
-            background-image: url(btn.svg);
+            background-image: url(http://diakov.site/img/btn.svg);
             background-size: contain;
             width: 350px;
             background-repeat: no-repeat;
@@ -50,7 +50,7 @@
 
         #question {
             text-align: center;
-            background-image: url(question.svg);
+            background-image: url(http://diakov.site/img/question.svg);
             background-size: auto;
             background-position: center;
             background-repeat: no-repeat;
@@ -105,6 +105,22 @@
             3: 'Президент СССР',
             4: 'Второй президент РФ',
             answer: 4
+        },
+        4: {
+            question: 'Энола Гей',
+            1: 'Тринсвестит Энола',
+            2: 'Известный певец и Грузии',
+            3: 'Сражение на горе',
+            4: 'Имя самолета сбросившего атомную бомбу',
+            answer: 4
+        },
+        5: {
+            question: 'Ядерный титбит',
+            1: 'Продукт полурспада изотопа Скриптия 923',
+            2: 'Эмо-группа из Хабаровска',
+            3: 'Протевоядерный щит Киргизии',
+            4: 'Квест по мотивам Данила Шеповалова',
+            answer: 4
         }
     };
 
@@ -127,7 +143,7 @@
         let btn = document.querySelectorAll('#div button');
         for (let i = 0; i < btn.length; i++) {
             btn[i].addEventListener("click", function () {
-                game.checkAnswer(i + 1);
+                setTimeout(game.checkAnswer(i + 1), 2000);
             });
         }
 
@@ -160,6 +176,13 @@
                 game.questionNumber += 1;
                 player.score += 1000;
                 this.cleanDiv();
+                if (ask.hasOwnProperty(game.questionNumber)) {
+                    game.start();
+                } else {
+                    p.innerText = "Вы победили!";
+                    div.innerText = `Ваш счет: ${player.score}`;
+                }
+
             } else {
                 game.stop();
             }
@@ -175,6 +198,7 @@
             let p = document.getElementById('p');
             p.innerText = "Игра окончена";
             div.innerText = `Ваш счет: ${player.score}`;
+            game.questionNumber = 1;
         }
     };
 
