@@ -17,6 +17,7 @@
             padding: 0 10%;
             text-align: center;
             color: white;
+            padding: 100px 0 0 0;
         }
 
         button {
@@ -83,9 +84,9 @@
 </body>
 <script type="text/javascript">
 
-    var audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3'); //звук старта
-    var ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3'); //звук ответа
-
+    let audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3'); //звук старта
+    let ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3'); //звук ответа
+    let helpFifty = new Audio('https://soundslibmp3.ru/sounds/1591296578_long-6.mp3'); //50/50
     const ask = {
         1: {
             question: 'Что такое RGB?',
@@ -177,10 +178,18 @@
 
         },
         helpFifty() {
-            alert('123');
-            btn = document.querySelectorAll('.btn');
+
+            let btn = document.querySelectorAll('.btn');
+            for (let i = 1; i <= 2; i++) {
+                let num = Math.round(Math.random() * (4));
+                if (ask[game.questionNumber].answer != num) {
+                    btn[i].remove();
+                    player.help = 0;
+                    helpFifty.play();
+                }
+            }
             help = document.getElementById('help');
-            remove(help);
+            help.remove();
         },
 
         askQuestion(questionNumber) { //генерируем вопрос и вызываем функцию-генератор кнопок
