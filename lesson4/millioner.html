@@ -62,6 +62,11 @@
             color: white;
             margin: 0 0 20px;
         }
+
+        .btn:active {
+            color: chartreuse;
+
+        }
     </style>
 </head>
 
@@ -78,8 +83,8 @@
 </body>
 <script type="text/javascript">
 
-    var audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3');
-    var ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3');
+    var audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3'); //звук старта
+    var ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3'); //звук ответа
 
     const ask = {
         1: {
@@ -93,26 +98,26 @@
         2: {
             question: 'Чем занимается программист?',
             1: 'Ремонтирует процессоры',
-            2: 'Тянет ЛВС и поднимает сервера',
+            2: 'Пишет код',
             3: 'Составляет сетку програм на ТВ',
-            4: 'Пишет код',
-            answer: 4
+            4: 'Тянет ЛВС и поднимает сервера',
+            answer: 2
         },
         3: {
             question: 'Путин',
-            1: 'Краб',
+            1: 'Второй президент РФ',
             2: 'Король Российской Империиё',
             3: 'Президент СССР',
-            4: 'Второй президент РФ',
-            answer: 4
+            4: 'Краб',
+            answer: 1
         },
         4: {
             question: 'Энола Гей',
-            1: 'Тринсвестит Энола',
-            2: 'Известный певец и Грузии',
-            3: 'Сражение на горе',
-            4: 'Имя самолета сбросившего атомную бомбу',
-            answer: 4
+            1: 'Трансвестит Энола',
+            2: 'Имя самолета сбросившего атомную бомбу',
+            3: 'Исторические сражение на горе Гей',
+            4: 'Известный певец из Грузии',
+            answer: 2
         },
         5: {
             question: 'Ядерный титбит',
@@ -126,27 +131,34 @@
 
     const player = {
         score: 0,
-        help: 3
+        help: 1
     };
 
     function generateBtn(n) { //генерирование кнопок с ответами
+
         for (let i = 1; i <= 4; i++) {
             let btn = document.createElement('button');
             btn.innerText = n[i];
             btn.setAttribute('id', i);
+            btn.classList.add('btn');
             div.append(btn);
         }
-
+        let btnHelp = document.createElement('button');
+        if (player.help != 0) {
+            btnHelp.innerText = '50 / 50';
+            btnHelp.setAttribute('id', 'help');
+            btnHelp.setAttribute('onClick', 'game.helpFifty()');
+            div.append(btnHelp);
+        }
     };
 
     function f() {//функция для определения id нажатой кнопки
-        let btn = document.querySelectorAll('#div button');
+        let btn = document.querySelectorAll('#div .btn');
         for (let i = 0; i < btn.length; i++) {
             btn[i].addEventListener("click", function () {
-                setTimeout(game.checkAnswer(i + 1), 2000);
+                game.checkAnswer(i + 1);
             });
         }
-
     };
 
     let game = {
@@ -156,31 +168,41 @@
             let p = document.getElementById('p'),
                 div = document.getElementById('div');
             p.innerHTML = "<b>Игра началась</b>";
-            audio.play();
+            if (game.questionNumber == 1) { //играем этот звук, только , если начало игры.
+                audio.play();
+            }
+
             this.askQuestion(this.questionNumber);  //начинаем выводит вопросы  в зависимости от свойства questionNumber
             f(); // слушаем ответ на кнопках
-            //this.start(); не получается запустить новый вопрос. По задумке. Сейчас запущу опять метод старт и он посмотрит на вопрос , который уже навен 2 и далее по кругу
+
+        },
+        helpFifty() {
+            alert('123');
+            btn = document.querySelectorAll('.btn');
+            help = document.getElementById('help');
+            remove(help);
         },
 
-        askQuestion(questionNumber) { //генерируем порос и вызываем функцию-генератор кнопок
+        askQuestion(questionNumber) { //генерируем вопрос и вызываем функцию-генератор кнопок
             let question = document.getElementById('question');
             question.innerHTML = ask[questionNumber].question;
             generateBtn(ask[questionNumber]);
 
         },
 
-        checkAnswer(i) {//не смог сделать проверку для каждого вопроса. Пришлось все ответы делать под одним номером
-            if (i == ask[1].answer) {
+        checkAnswer(i) {
+            if (i == ask[game.questionNumber].answer) { //Вот тут была проблема, по прошлым коммитам видно в чем. ТАк проде работает
                 ok.play();
                 p.innerText = 'Верно! Получи +1000';
                 game.questionNumber += 1;
                 player.score += 1000;
                 this.cleanDiv();
-                if (ask.hasOwnProperty(game.questionNumber)) {
+                if (ask.hasOwnProperty(game.questionNumber)) {//смотрим, если вопрос еще есть, то стартуем по новой
                     game.start();
-                } else {
-                    p.innerText = "Вы победили!";
-                    div.innerText = `Ваш счет: ${player.score}`;
+                } else {    //если вопросв нет, значит ответили на все. И мы красаучики
+                    p.innerText = '';
+                    let question = document.getElementById('question');
+                    question.innerText = `Вы победили! Ваш счет: ${player.score}`;
                 }
 
             } else {
@@ -195,10 +217,9 @@
             div.append(p);
         },
         stop() {
-            let p = document.getElementById('p');
-            p.innerText = "Игра окончена";
-            div.innerText = `Ваш счет: ${player.score}`;
-            game.questionNumber = 1;
+            let p = document.getElementById('question');
+            p.innerText = `Игра окончена! Ваш счет: ${player.score}`;
+            game.questionNumber = 1; //сброс к первому вопросу
         }
     };
 
