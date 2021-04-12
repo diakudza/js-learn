@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра милилонер!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #14161F;
+            padding: 0 10%;
+            text-align: center;
+            color: white;
+            padding: 100px 0 0 0;
+        }
+
+        button {
+            background: transparent;
+            /*border: 1px solid rgb(48, 51, 235);
+            border-radius: 5px;*/
+            border: none;
+            color: white;
+            outline: unset;
+            margin: 0 5px;
+            background-image: url(http://diakov.site/img/btn.svg);
+            background-size: contain;
+            width: 350px;
+            background-repeat: no-repeat;
+            height: 50px;
+            margin: 10px 0;
+        }
+
+        .cover {
+
+            display: flex;
+            justify-content: center;
+        }
+
+        #div {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 700px;
+        }
+
+        #question {
+            text-align: center;
+            background-image: url(http://diakov.site/img/question.svg);
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            margin: 0 0 20px;
+        }
+
+        #help,
+        #helpCall {
+            margin: 100px 0 0 0;
+        }
+
+        .btn:active {
+            color: chartreuse;
+
+        }
+    </style>
+</head>
+
+<body>
+    <button id="start" onclick="game.start()">Старт</button>
+    <button id="stop" onclick="game.stop()">Закончить</button>
+
+    <p id='p'></p>
+    <p id='question'></p>
+    <div class="cover">
+        <div id="div">
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    let audio = new Audio('https://soundslibmp3.ru/sounds/1591291652_long.mp3'); //звук старта
+    let ok = new Audio('https://soundslibmp3.ru/sounds/1591376924_long-14.mp3'); //звук ответа
+    let helpFifty = new Audio('https://soundslibmp3.ru/sounds/1591296578_long-6.mp3'); //50/50
+    const ask = {
+        1: {
+            question: 'Что такое RGB?',
+            1: 'ЛГБТ сообщество',
+            2: 'Ракетный комплекс земного базирования',
+            3: 'Запрещенное вещество',
+            4: 'Способ описания цвета',
+            answer: 4
+        },
+        2: {
+            question: 'Чем занимается программист?',
+            1: 'Ремонтирует процессоры',
+            2: 'Пишет код',
+            3: 'Составляет сетку програм на ТВ',
+            4: 'Тянет ЛВС и поднимает сервера',
+            answer: 2
+        },
+        3: {
+            question: 'Путин',
+            1: 'Второй президент РФ',
+            2: 'Король Российской Империиё',
+            3: 'Президент СССР',
+            4: 'Краб',
+            answer: 1
+        },
+        4: {
+            question: 'Энола Гей',
+            1: 'Трансвестит Энола',
+            2: 'Имя самолета сбросившего атомную бомбу',
+            3: 'Исторические сражение на горе Гей',
+            4: 'Известный певец из Грузии',
+            answer: 2
+        },
+        5: {
+            question: 'Ядерный титбит',
+            1: 'Продукт полурспада изотопа Скриптия 923',
+            2: 'Эмо-группа из Хабаровска',
+            3: 'Протевоядерный щит Киргизии',
+            4: 'Квест по мотивам Данила Шеповалова',
+            answer: 4
+        }
+    };
+
+    const player = {
+        score: 0,
+        help: 1,
+        helpCall: 1
+    };
+
+    function generateBtn(n) { //генерирование кнопок с ответами
+
+        for (let i = 1; i <= 4; i++) {
+            let btn = document.createElement('button');
+            btn.innerText = n[i];
+            btn.setAttribute('id', i);
+            btn.classList.add('btn');
+            div.append(btn);
+        }
+        let btnHelp = document.createElement('button');
+        if (player.help != 0) {
+            btnHelp.innerText = '50 / 50';
+            btnHelp.setAttribute('id', 'help');
+            btnHelp.setAttribute('onClick', 'game.helpFifty()');
+            div.append(btnHelp);
+        }
+        let btnCall = document.createElement('button');
+        if (player.helpCall != 0) {
+            btnCall.innerText = 'Звонок другу';
+            btnCall.setAttribute('id', 'helpCall');
+            btnCall.setAttribute('onClick', 'game.helpCall()');
+            div.append(btnCall);
+        }
+    };
+
+    function f() {//функция для определения id нажатой кнопки
+        let btn = document.querySelectorAll('#div .btn');
+        for (let i = 0; i < btn.length; i++) {
+            btn[i].addEventListener("click", function () {
+                game.checkAnswer(i + 1);
+            });
+        }
+    };
+
+    let game = {
+        questionNumber: 1,//счетчик текущего вопроса
+        start() {
+            this.cleanDiv();
+            let p = document.getElementById('p'),
+                div = document.getElementById('div');
+            p.innerHTML = "<b>Игра началась</b>";
+            if (game.questionNumber == 1) { //играем этот звук, только , если начало игры.
+                audio.play();
+            }
+
+            this.askQuestion(this.questionNumber);  //начинаем выводит вопросы  в зависимости от свойства questionNumber
+            f(); // слушаем ответ на кнопках
+
+        },
+        helpFifty() {// работате не верно
+
+            let btn = document.querySelectorAll('.btn');
+            for (let i = 1; i <= 2; i++) {
+                let num = Math.round(Math.random() * (4));
+                if ((ask[game.questionNumber].answer != num) && (num != undefined)) {
+                    btn[i + 1].remove();
+                    player.help = 0;
+                    helpFifty.play();
+                }
+            }
+            help = document.getElementById('help');
+            help.remove();
+        },
+        helpCall() {
+            alert('Звонок Константину Эрнсту');
+            player.helpCall = 0;
+            helpFifty.play();
+            helpCall = document.getElementById('helpCall');
+            helpCall.remove();
+        },
+
+        askQuestion(questionNumber) { //генерируем вопрос и вызываем функцию-генератор кнопок
+            let question = document.getElementById('question');
+            question.innerHTML = ask[questionNumber].question;
+            generateBtn(ask[questionNumber]);
+
+        },
+
+        checkAnswer(i) {
+            if (i == ask[game.questionNumber].answer) { //Вот тут была проблема, по прошлым коммитам видно в чем. ТАк проде работает
+                ok.play();
+                p.innerText = 'Верно! Получи +1000';
+                game.questionNumber += 1;
+                player.score += 1000;
+                this.cleanDiv();
+                if (ask.hasOwnProperty(game.questionNumber)) {//смотрим, если вопрос еще есть, то стартуем по новой
+                    game.start();
+                } else {    //если вопросв нет, значит ответили на все. И мы красаучики
+                    p.innerText = '';
+                    let question = document.getElementById('question');
+                    question.innerText = `Вы победили! Ваш счет: ${player.score}`;
+                }
+
+            } else {
+                game.stop();
+            }
+        },
+        cleanDiv() {
+            div.innerText = '';
+        },
+        stop() {
+            let p = document.getElementById('question');
+            p.innerText = `Игра окончена! Ваш счет: ${player.score}`;
+            game.questionNumber = 1; //сброс к первому вопросу
+            player.score = 0;
+        }
+    };
+
+
+
+</script>
