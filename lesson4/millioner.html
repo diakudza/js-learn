@@ -178,10 +178,13 @@
     let game = {
         questionNumber: 1,//счетчик текущего вопроса
         start() {
+            if (this.questionNumber == 1) {
+                document.getElementById('start').remove();
+            }
             this.cleanDiv();
             let p = document.getElementById('p'),
                 div = document.getElementById('div');
-            p.innerHTML = "<b>Игра началась</b>";
+            p.innerHTML = "";
             if (game.questionNumber == 1) { //играем этот звук, только , если начало игры.
                 audio.play();
             }
@@ -191,12 +194,13 @@
 
         },
         helpFifty() {// работате не верно
+            let okAnswer = ask[game.questionNumber].answer;
+            let btn = document.querySelectorAll('.btn:not(:nth-child(' + okAnswer + ')');
 
-            let btn = document.querySelectorAll('.btn');
             for (let i = 1; i <= 2; i++) {
                 let num = Math.round(Math.random() * (4));
                 if ((ask[game.questionNumber].answer != num) && (num != undefined)) {
-                    btn[i + 1].remove();
+                    btn[i].remove();
                     player.help = 0;
                     helpFifty.play();
                 }
@@ -244,6 +248,8 @@
         stop() {
             let p = document.getElementById('question');
             p.innerText = `Игра окончена! Ваш счет: ${player.score}`;
+            document.getElementById('div').remove();
+            document.getElementById('stop').remove();
             game.questionNumber = 1; //сброс к первому вопросу
             player.score = 0;
         }
