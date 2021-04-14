@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chess</title>
+	<style type="text/css">
+		.table {
+			margin: 0 auto;
+			text-align: center;
+			border: 0.5px solid black;
+			width: 400px;
+			height: 400px;
+			text-transform: uppercase;
+		}
+
+		.td {
+			font-size: 20px;
+			width: 40px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.tr {
+			font-size: 20px;
+			height: 40px;
+			display: flex;
+		}
+
+		.rotate {
+			transform: rotate(180deg);
+		}
+
+		.black {
+			color: black;
+
+		}
+
+		.white {
+			color: white;
+			/*-webkit-text-stroke: 0.7px #000;*/
+		}
+
+		.bgBlack {
+			background: rgb(202, 130, 22);
+		}
+
+		.bgWhite {
+			background: rgb(236, 180, 139);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="x"></div>
+
+	<script>
+		var table = document.createElement("div"), tr, td;
+		table.classList.add('table');
+
+		var letter = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', ''];
+		var vert = ['', '8', '7', '6', '5', '4', '3', '2', '1', ''];
+		var obj = {
+			peshka: {
+				posH: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+				posV: [7, 2],
+				unicode: '&#9817'
+			},
+			ladia: {
+				posH: ['a', 'h'],
+				posV: [1, 8],
+				unicode: '&#9814'
+			},
+			horse: {
+				posH: ['b', 'g'],
+				posV: [1, 8],
+				unicode: '&#9816'
+			},
+			elefant: {
+				posH: ['c', 'f'],
+				posV: [1, 8],
+				unicode: '&#9815'
+			},
+			king: {
+				posH: ['e'],
+				posV: [1, 8],
+				unicode: '&#9812'
+			},
+			ferzd: {
+				posH: ['d'],
+				posV: [1, 8],
+				unicode: '&#9813'
+			}
+		};
+
+		function makeObj(i, j) { // на вход получаем 'координаты' фигуры и сравниваем парное совпадение по 2м осям в обьекте.
+			if (i == 0 || i == 9 || j == 0 || j == 9) { return; }//для краев доски не делать перебор
+			var arr = Object.getOwnPropertyNames(obj); //получаем имена вложенных объектов 
+			for (var b = 0; b < arr.length; b++) {
+				//console.log(obj[arr[b]]); - //получаем все типы фигур
+				for (var k = 0; k < obj[arr[b]]['posV'].length; k++) { //перебор по строкам, если совпадает строка, то запускаем следующий цикл, который перебирает массив с буквенными координатами.
+					var posV = obj[arr[b]]['posV'][k];
+					if (posV == i) {
+						//console.log('строка ' + posV);
+						for (var c = 0; c < obj[arr[b]]['posH'].length; c++) {//цикл перебора буквенных координат
+							var posH = obj[arr[b]]['posH'][c];
+							var mas = obj.peshka.posH;
+							if (obj[arr[b]]['posH'][c].indexOf(mas[j - 1]) == 0) { //смотрим внутрь массива координат(a-h) и проверяем, если ли такие у нашей фигуры,ска ппц
+								//console.log('стобец ' + posH);
+								td.innerHTML = obj[arr[b]]['unicode'];//вставка юникода фигуры в тег <td>
+							}
+						}
+					}
+				}
+			}
+		};
+
+		for (i = 0; i < 10; i++) {
+			tr = document.createElement("div");
+			tr.classList.add('tr');
+			table.append(tr);
+			for (j = 0; j < 10; j++) { //рисуем шахматную доску
+				td = document.createElement("div");
+				td.classList.add('td');
+				makeObj(i, j); //собственно главная функция , принимаем координаты и ищем по всему обьекту совпадения
+				if (((i != 0) && (i != 9)) && (j != 0) && (j != 9)) { //ставим класс расскраски, через один
+					if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
+						td.classList.add('bgBlack');
+					} else {
+						td.classList.add('bgWhite');
+					}
+				}
+				if (i == 0 || j == 9) { //для верхних букв делаем переворот
+					td.classList.add("rotate");
+				}
+				if (((i == 7) || (i == 8)) && ((j != 0) && (j != 9))) { //красим нижние фигуры
+					td.classList.add("black");
+				}
+				if (((i == 1) || (i == 2)) && ((j != 0) && (j != 9))) { //красим верхние фигуры
+					td.classList.add("white");
+				}
+				if ((i == 0 || i == 9)) { //пишем буквы из массива
+					td.width = '10';
+					td.innerText = letter[j];
+				}
+				if ((i != 0 || i != 8) && (j == 0 || j == 9)) { //выводим цифры из массыва
+					td.innerText = vert[i];
+				}
+				tr.append(td);
+			}
+		}
+		document.getElementById("x").append(table);
+	</script>
+</body>
+
+</html>
