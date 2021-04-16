@@ -33,14 +33,25 @@ function init() {
 		let img = document.querySelector('.gallery img');
 		let thumbnails = document.querySelectorAll('.thumbnails > img');
 		let id = img.id.slice(-1);
+		//--------- протестил к следющему уроку 
+		if(e.keydown != undefined){
+		switch (e.keyCode) {
+        case 37: 
+            id++;
+            break;
+        case 39: 
+            id--;
+            break;
+        };}else{
+        //------    
 		if (direction.id == 'right') {//определяем направление листалки
 			id++;
-		} else { id--; }
+		} else { id--; }}
 		if (id >= thumbnails.length + 1) { id = 1; } //если перебег по колву превьющек, то идем на первую
 		if (id < 1) { id = 4; } // аналогично , только на последнюю
 		newPic(id);
 	}
-
+	addEventListener('keyup', next); //-- протестил к следющему уроку
 	document.getElementById('right').addEventListener('click', next);
 	document.getElementById('left').addEventListener('click', next);
 };
