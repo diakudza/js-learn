@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <style>
+      #table {
+         margin: 0 auto;
+         display: flex;
+         flex-wrap: wrap;
+         width: 550px;
+      }
+
+      .food {
+         background: green;
+      }
+
+      #table>div {
+         border: 1px solid black;
+         width: 50px;
+         height: 50px;
+      }
+
+      .selected {
+         background-color: red;
+      }
+
+      .head {
+         background: darkred;
+      }
+   </style>
+</head>
+
+<body>
+   <div id="table"></div>
+
+   <script>
+      let n = 100;//колличество полей
+      let snake = [13]; //[0] голова
+      let key = 40;
+
+      function init() {
+
+         generateTable();
+         drawSnake();
+         generateFood();
+         setInterval(move, 500);
+         addEventListener('keydown', changeDirection);
+      };
+
+      function changeDirection(e) {
+         let allTd = document.querySelectorAll('#table > div');
+         let position;
+         switch (e.keyCode) {
+            case 37: // Клавиша влево
+
+               snake.unshift(+snake[0] - 1);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               // if ((+position) % 10 !== 0) {
+               //    allTd[+position - 1].classList.toggle('selected');
+               //    snake = [position - 1];
+               // } else {
+               //    allTd[+position + 9].classList.toggle('selected');
+               // }
+               break;
+
+            case 39: // Клавиша вправо
+               snake.unshift(+snake[0] + 1);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               // allTd[position].classList.toggle('selected');
+               // if ((+position + 1) % 10 !== 0) {
+               //    allTd[+position + 1].classList.toggle('selected');
+               // } else {
+               //    allTd[(Math.floor(+position / 10) * 10)].classList.toggle('selected');
+               // }
+               break;
+
+            case 38: // Клавиша вверх
+               snake.unshift(+snake[0] - 10);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               // allTd[position].classList.toggle('selected');
+               // if ([+position - 10] >= 0) {
+               //    allTd[+position - 10].classList.toggle('selected');
+               // } else {
+               //    allTd[+position + 90].classList.toggle('selected');
+               // }
+               break;
+
+            case 40: // Клавиша внниз
+               snake.unshift(+snake[0] + 10);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               // allTd[position].classList.toggle('selected');
+               // if ([+position + 10] < allTd.length) {
+               //    allTd[+position + 10].classList.toggle('selected');
+               // } else {
+               //    allTd[+position - 90].classList.toggle('selected');
+               // }
+               break;
+         }
+         return key = e.keyCode;
+      }
+
+      function clearSnake() {
+         let snakePart = document.querySelectorAll('.selected');
+         for (div of snakePart) {
+            if (div.classList[0] == 'head') {
+               div.classList.remove('head');
+            }
+            div.classList.toggle('selected');
+         }
+      }
+
+      function move() {
+         let allTd = document.querySelectorAll('#table > div');
+         switch (key) {
+            case 37: // Клавиша влево
+               snake.unshift(+snake[0] - 1);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               break;
+
+            case 39: // Клавиша вправо
+               snake.unshift(+snake[0] + 1);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               break;
+
+            case 38: // Клавиша вверх
+               snake.unshift(+snake[0] - 10);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               break;
+            case 40: // Клавиша внниз
+               snake.unshift(+snake[0] + 10);
+               isFood(+snake[0]);
+               snake.pop();
+               clearSnake();
+               drawSnake();
+               break;
+         }
+
+      }
+
+
+      function drawSnake() {
+         let allTd = document.querySelectorAll('#table > div');
+         for (i of snake) {
+            // if (i[0]) {
+            //    allTd[i].classList.add('head');
+            // }
+            allTd[i].classList.add('selected');
+         }
+      }
+      function generateFood() {
+         let allTd = document.querySelectorAll('#table > div');
+         let food = [11, 64, 86];
+         for (i of food) {
+            allTd[i].classList.add('food');
+         }
+      }
+      function isFood(d) {
+         let food = document.getElementById(d);
+         if (food.classList == 'food') {
+            snake.unshift(d);
+            food.classList.remove('food');
+         }
+      }
+
+      function generateTable() {
+         let table = document.getElementById('table');
+         while (n > 0) {
+            let div = document.createElement('div');
+            if ((n <= 9) || (n % 10 == 0) || (n >= 90) || ((n + 9) % 10 == 0)) {//граница таблицы
+               div.classList.add('border');
+            }
+            div.setAttribute('id', n - 1)
+            div.innerText = n - 1;
+            table.prepend(div);
+            n--;
+         }
+      }
+
+      window.addEventListener('load', init);
+
+   </script>
+
+
+</body>
+
+</html>
