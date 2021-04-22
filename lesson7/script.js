@@ -6,7 +6,7 @@ const SNAKE_DIRECTION_UP = 'up';
 const SNAKE_DIRECTION_DOWN = 'down';
 const SNAKE_DIRECTION_LEFT = 'left';
 const SNAKE_DIRECTION_RIGHT = 'right';
-
+let key = 40;
 /**
  * Объект с настройками конфигурации игры
  */
@@ -21,7 +21,13 @@ const config = {
  * Основной объект игры.
  */
 const game = {
-
+  status: null,
+  score: 0,
+  scorePlus() {
+    let text = document.getElementById('score-value').innerText;
+    game.score++;
+    return document.getElementById('score-value').innerText = game.score;
+  },
   /**
    * Функция ищет HTML элемент контейнера игры на странице.
    *
@@ -38,6 +44,7 @@ const game = {
     game.setGameStatus(GAME_STATUS_STARTED);
 
     board.render();
+    setInterval(game.move, 2000);
     snake.render();
     food.render();
   },
@@ -57,7 +64,11 @@ const game = {
   stop() {
     game.setGameStatus(GAME_STATUS_STOPPED);
 
-    /* добавить сюда код */
+    //food.remove();
+    let text = document.getElementById('score-value');
+    text.innerHTML = `Игра окончена! Ваш счет: ${game.score}`
+    window.removeEventListener('keydown', game.move);
+    snake.remove();
   },
 
   /**
@@ -68,9 +79,14 @@ const game = {
   move(event) {
     let direction = null;
 
+    if (event == undefined) {
+      return direction = SNAKE_DIRECTION_DOWN;
+    }
+
     /* смотрим на код клавишы и
      * устанавливаем соответсвующее направление движения */
     switch (event.keyCode) {
+
       case 38:
         direction = SNAKE_DIRECTION_UP;
         break;
@@ -84,8 +100,10 @@ const game = {
         direction = SNAKE_DIRECTION_RIGHT;
         break;
       default:
-        return;
+        //return;
+        return key = event.keyCode
     }
+
 
     /* устанавливаем позицию для змейки
      * и запрашиваем координаты следующей позиции */
@@ -95,6 +113,13 @@ const game = {
     /* проверяем совпадает ли следующая позиция с какой-нибудь едой */
     const foundFood = food.foundPosition(nextPosition);
 
+    for (cell of snake.parts) {
+      if (nextPosition.left == cell.left && nextPosition.top == cell.top) {
+
+        game.stop();
+
+      }
+    }
     /* если найден индекс еды (то есть позиция совпадает) */
     if (foundFood !== -1) {
       /* устанавливаем следующую позицию змейки с вторым параметром "не удалять хвост змейки",
@@ -103,7 +128,7 @@ const game = {
 
       /* удаляем еду с поля */
       food.removeItem(foundFood);
-
+      game.scorePlus();
       /* генерируем новую еду на поле */
       food.generateItem();
 
@@ -115,7 +140,9 @@ const game = {
     }
 
     /* перерендериваем змейку */
-    snake.render();
+    if (game.status == GAME_STATUS_STARTED) {
+      snake.render();
+    }
   },
 
   /**
@@ -126,7 +153,7 @@ const game = {
    */
   setGameStatus(status) {
     const element = game.getElement();
-
+    game.status = status;
     // обратить внимание, как сделать красивее
     element.classList.remove(GAME_STATUS_STARTED, GAME_STATUS_PAUSED, GAME_STATUS_STOPPED);
     element.classList.add(status);
@@ -320,7 +347,16 @@ const snake = {
    */
   render() {
     cells.renderItems(this.parts, 'snake');
+  },
+  remove() {
+
+    /* для координат змейки ищем клетку и удаяем класс */
+    for (let coordinate of snake.parts) {
+      const cell = document.querySelector(`.cell[data-top="${coordinate.top}"][data-left="${coordinate.left}"]`);
+      cell.classList.remove('snake');
+    }
   }
+
 };
 
 /**
