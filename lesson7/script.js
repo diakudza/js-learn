@@ -42,9 +42,7 @@ const game = {
    */
   start() {
     game.setGameStatus(GAME_STATUS_STARTED);
-
     board.render();
-    setInterval(game.move, 2000);
     snake.render();
     food.render();
   },
@@ -80,7 +78,7 @@ const game = {
     let direction = null;
 
     if (event == undefined) {
-      return direction = SNAKE_DIRECTION_DOWN;
+      var event = { keyCode: key };
     }
 
     /* смотрим на код клавишы и
@@ -89,19 +87,23 @@ const game = {
 
       case 38:
         direction = SNAKE_DIRECTION_UP;
+        key = event.keyCode
         break;
       case 40:
         direction = SNAKE_DIRECTION_DOWN;
+        key = event.keyCode
         break;
       case 37:
         direction = SNAKE_DIRECTION_LEFT;
+        key = event.keyCode
         break;
       case 39:
         direction = SNAKE_DIRECTION_RIGHT;
+        key = event.keyCode
         break;
       default:
-        //return;
-        return key = event.keyCode
+        return;
+
     }
 
 
@@ -438,6 +440,7 @@ function init() {
   /* добавляем обработчик при нажатии на любую кнопку на клавиатуре,
    * далее в методе мы будем проверять нужную нам клавишу */
   window.addEventListener('keydown', game.move);
+  setInterval(game.move, 500);
 }
 
 /**
