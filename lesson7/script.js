@@ -6,7 +6,10 @@ const SNAKE_DIRECTION_UP = 'up';
 const SNAKE_DIRECTION_DOWN = 'down';
 const SNAKE_DIRECTION_LEFT = 'left';
 const SNAKE_DIRECTION_RIGHT = 'right';
-let key = 40;
+let key = {
+  code: 40,
+  direction: 'down' //добавил это свойсво, что бы проверять , если клвавиша совпадает с текщим движением, но не заработало 
+}
 /**
  * Объект с настройками конфигурации игры
  */
@@ -36,15 +39,24 @@ const game = {
   getElement() {
     return document.getElementById('game');
   },
-
   /**
    * Функция выполняет старт игры.
    */
   start() {
-    game.setGameStatus(GAME_STATUS_STARTED);
-    board.render();
-    snake.render();
-    food.render();
+    if (game.status != GAME_STATUS_STARTED && game.status != GAME_STATUS_PAUSED) { //новая игра
+      game.setGameStatus(GAME_STATUS_STARTED);
+      board.render();
+      snake.render();
+      food.render();
+      window.addEventListener('keydown', game.move);
+      setInterval(game.move, 500);
+    } else if (game.status = GAME_STATUS_PAUSED) { //старт после паузы
+      game.setGameStatus(GAME_STATUS_STARTED);
+      window.addEventListener('keydown', game.move);
+      setInterval(game.move, 500);
+    } else {
+      alert('ИГРА УЖЕ ИДЕТ!');
+    }
   },
 
   /**
@@ -52,7 +64,7 @@ const game = {
    */
   pause() {
     game.setGameStatus(GAME_STATUS_PAUSED);
-
+    clearInterval(game.move);// не смог отменить интервал
     /* добавить сюда код */
   },
 
@@ -62,11 +74,17 @@ const game = {
   stop() {
     game.setGameStatus(GAME_STATUS_STOPPED);
 
-    //food.remove();
     let text = document.getElementById('score-value');
     text.innerHTML = `Игра окончена! Ваш счет: ${game.score}`
     window.removeEventListener('keydown', game.move);
+    board.remove();
     snake.remove();
+    clearInterval(game.move);
+    snake.parts = [ //после стопа не смог вернуть змейку в изначальное состояние.
+      { top: 0, left: 0 },
+      { top: 0, left: 1 },
+      { top: 0, left: 2 },
+    ];
   },
 
   /**
@@ -76,9 +94,11 @@ const game = {
    */
   move(event) {
     let direction = null;
-
+    if (event !== undefined && key.code == event.keyCode) { //Убрал движение вперед с клавиатуры 
+      return;
+    }
     if (event == undefined) {
-      var event = { keyCode: key };
+      var event = { keyCode: key.code };
     }
 
     /* смотрим на код клавишы и
@@ -87,19 +107,23 @@ const game = {
 
       case 38:
         direction = SNAKE_DIRECTION_UP;
-        key = event.keyCode
+        key.code = event.keyCode
+        key.direction = direction
         break;
       case 40:
         direction = SNAKE_DIRECTION_DOWN;
-        key = event.keyCode
+        key.code = event.keyCode
+        key.direction = direction
         break;
       case 37:
         direction = SNAKE_DIRECTION_LEFT;
-        key = event.keyCode
+        key.code = event.keyCode
+        key.direction = direction
         break;
       case 39:
         direction = SNAKE_DIRECTION_RIGHT;
-        key = event.keyCode
+        key.code = event.keyCode
+        key.direction = direction
         break;
       default:
         return;
@@ -193,6 +217,12 @@ const board = {
       cell.dataset.left = i % config.size;
 
       board.appendChild(cell);
+    }
+  },
+  remove() {
+    const cellAll = cells.getElements();
+    while (cellAll.length) {
+      cellAll[0].parentNode.removeChild(cellAll[0]);
     }
   }
 };
@@ -439,8 +469,8 @@ function init() {
 
   /* добавляем обработчик при нажатии на любую кнопку на клавиатуре,
    * далее в методе мы будем проверять нужную нам клавишу */
-  window.addEventListener('keydown', game.move);
-  setInterval(game.move, 500);
+
+
 }
 
 /**
